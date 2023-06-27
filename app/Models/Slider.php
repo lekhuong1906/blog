@@ -14,4 +14,5 @@ class Slider extends Model
         'image',
         'image_description'
     ];
+
 }

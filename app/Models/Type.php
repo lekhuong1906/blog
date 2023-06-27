@@ -15,7 +15,7 @@ class Type extends Model
         'type_description'
     ];
 
-    /*public function product(){
-        return $this->belongsTo(Product::class,'product_type','id');
-    }*/
+    public function product(){
+        return $this->hasMany(Product::class,'product_type','id');
+    }
 }

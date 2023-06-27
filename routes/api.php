@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
@@ -23,4 +24,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('products',ProductController::class);
 
-Route::resource('types',TypeController::class);
+Route::resource('types',TypeController::class)->except('create','edit');
+Route::resource('sliders',SliderController::class)->only('index','store');
