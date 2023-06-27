@@ -24,7 +24,7 @@ class TypeController extends Controller
 
     public function index()
     {
-        return $this->data->formatJson(Type::paginate(5));
+        return $this->data->formatJson(Type::paginate(4));
     }
 
     /**
