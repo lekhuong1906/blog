@@ -20,11 +20,11 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return array|false|string
      */
     public function index()
     {
-        return $this->data->getAllProduct();
+        return $this->data->formatJson(Product::all());
     }
 
     /**
@@ -45,8 +45,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $this->data->createProduct($request);
-        return $this->data->formatJson(Product::all());
+        return $this->data->createProduct($request);
     }
 
     /**
