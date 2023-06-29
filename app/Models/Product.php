@@ -26,12 +26,7 @@ class Product extends Model
         return $this->belongsToMany(Color::class,'product_colors');
     }
 
-    public function scopeGetColorProduct(){
-        $data = [];
-        $allProduct = Product::all();
-        foreach ($allProduct as $product){
-            $color = DB::table('product_colors')->where('id',$product->id)->get();
-        }
-         return $data;
+    public function imageProduct(){
+        return $this->hasMany(Product::class,'product_id','id');
     }
 }

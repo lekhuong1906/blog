@@ -2,12 +2,13 @@
 
 namespace App\Http\Services;
 
-use App\Models\Color;
+use App\Models\ImageProduct;
 use App\Models\Product;
-use Illuminate\Support\Facades\DB;
+
 
 class ProductService extends ProcessService
 {
+
     public function createProduct($data)
     {
         $product = new Product();
@@ -15,26 +16,78 @@ class ProductService extends ProcessService
         $product->save();
         return $this->formatJson(Product::all());
     }
+    public function productDetail($id){
 
-    /*public function getAllProduct()
-    {
-        $data = [];
-        $color_list = [];
-        $allProduct = Product::all();
-        foreach ($allProduct as $product) {
-            $colors = DB::table('product_colors')->where('product_id', $product->id)->get();
-            foreach ($colors as $color) {
-                if ($color->product_stock !== 0)
-                    break;
-                else {
-                    $color_value = Color::where('id', $color->color_id)->first();
-                    array_push($color_list, $color_value->color_code);
-                }
-            }
-            $tamp = json_decode(json_encode($product), true);
-            $tamp['color_code'] = $color_list;
-            array_push($data, $tamp);
+        $product = Product::find($id);
+        $data = json_decode(json_encode($product),true);
+        $imageUrls = $this->getImage($product->id);
+        $data['product_color'] = $imageUrls;
+
+
+        return ($data);
+    }
+
+    public function getAllProduct(){
+        $data['backPack']=$this->getBackPack();
+        $data['wallet']=$this->getWallet();
+        $data['tote']=$this->getTote();
+        $data['crossbody']=$this->getCrossbody();
+        return ($data);
+    }
+
+    public function getBackPack(){
+        $data=[];
+        $backPacks = Product::where('product_type',1)->get();
+        foreach ($backPacks as $backPack){
+            $image = $this->getImage($backPack->id);
+            $arr = json_decode(json_encode($backPack),true);
+            $arr['product_image'] = $image;
+            array_push($data,$arr);
         }
-        return $this->formatJson($data);
-    }*/
+        return $data;
+    }
+    public function getWallet(){
+        $data=[];
+        $wallets = Product::where('product_type',2)->get();
+        foreach ($wallets as $wallet){
+            $image = $this->getImage($wallet->id);
+            $arr = json_decode(json_encode($wallet),true);
+            $arr['product_image'] = $image;
+            array_push($data,$arr);
+        }
+        return $data;
+    }
+    public function getTote(){
+        $data=[];
+        $totes = Product::where('product_type',3)->get();
+        foreach ($totes as $tote){
+            $image = $this->getImage($tote->id);
+            $arr = json_decode(json_encode($tote),true);
+            $arr['product_image'] = $image;
+            array_push($data,$arr);
+        }
+        return $data;
+    }
+    public function getCrossbody(){
+        $data=[];
+        $crossbodys = Product::where('product_type',4)->get();
+        foreach ($crossbodys as $crossbody){
+            $image = $this->getImage($crossbody->id);
+            $arr = json_decode(json_encode($crossbody),true);
+            $arr['product_image'] = $image;
+            array_push($data,$arr);
+        }
+        return $data;
+    }
+
+    public function getImage($id)
+    {
+        $images = ImageProduct::where('product_id',$id)->get();
+        foreach ($images as $image){
+            $fileName = $image->image;
+            $imageUrls[] = asset('storage/products/'. $fileName);
+        }
+        return $imageUrls;
+    }
+
 }

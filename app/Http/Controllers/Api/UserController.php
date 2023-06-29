@@ -3,31 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\ProductRequest;
-use App\Http\Services\ProductService;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
-    protected $data;
-    public function __construct(ProductService $productService )
-    {
-        return $this->data = $productService;
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return array|false|string
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return new Collection($this->data->getAllProduct());
-        return $this->data->getAllProduct();
-        return $this->data->formatJson($this->data->getWallet());
+        //
     }
 
     /**
@@ -35,31 +26,36 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(UserRequest $request)
     {
-        //
+        return User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'api_token' => Str::random(60),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return false|\Illuminate\Http\Response|string
+     * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
-        return $this->data->createProduct($request);
+        //
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return false|\Illuminate\Http\Response|string
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return new Collection($this->data->productDetail($id));
+        //
     }
 
     /**
@@ -82,7 +78,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
