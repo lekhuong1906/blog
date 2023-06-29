@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -27,7 +27,14 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "disable-tls": false,
+        "http": {
+            "proxy": "http://proxy.example.com:8080"
+        },
+        "https": {
+            "proxy": "http://proxy.example.com:8080"
+        }
     },
     "extra": {
         "laravel": {
