@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
-use App\Http\Services;
 use App\Http\Requests\SliderRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Services\SliderService;
 
 class SliderController extends Controller
 {
-    protected $data;
+    protected $service;
 
-    public function __construct(Services\ProcessService $processService)
+    public function __construct(SliderService $sliderService)
     {
-        return $this->data = $processService;
+        return $this->service = $sliderService;
     }
 
     /**
@@ -26,14 +27,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $files = Storage::allFiles('public/sliders');
-
-        $imageUrls = [];
-
-        foreach ($files as $file) {
-            $imageUrls[] = asset('storage/'.str_replace('public/', '', $file));
-        }
-        return $this->data->formatJson($imageUrls);
+        return new Collection($this->service->getSlider());
     }
 
     /**
@@ -54,25 +48,11 @@ class SliderController extends Controller
      */
     public function store(SliderRequest $request)
     {
-        try {
-            $image = Str::random(32) . "." . $request->image->getClientOriginalExtension();
-            Slider::create([
-                'image_name' => $request->image_name,
-                'image' => $image,
-                'image_description' => $request->image_description
-            ]);
 
-            Storage::putFileAs('public/sliders', $request->file('image'), $image);
+        $this->service->createSlider($request);
 
 
-            return response()->json([
-                'message' => 'Success.'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        /**/
 
 
     }

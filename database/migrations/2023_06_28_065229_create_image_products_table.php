@@ -15,10 +15,9 @@ class CreateImageProductsTable extends Migration
     {
         Schema::create('image_products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id');
-            $table->string('image_product_name');
-            $table->string('image');
-            $table->text('image_product_description');
+            $table->integer('product_id');
+            $table->string('image_name');
+            $table->string('image_link');
             $table->timestamps();
         });
     }

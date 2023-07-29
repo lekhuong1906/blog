@@ -7,15 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\ProductService;
 use Illuminate\Http\Request;
-use App\Models\Product;
 use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
-    protected $data;
+    protected $service;
     public function __construct(ProductService $productService )
     {
-        return $this->data = $productService;
+        return $this->service = $productService;
     }
 
     /**
@@ -25,9 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return new Collection($this->data->getAllProduct());
-        return $this->data->getAllProduct();
-        return $this->data->formatJson($this->data->getWallet());
+        return new Collection($this->service->getAllProduct());
     }
 
     /**
@@ -48,7 +45,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        return $this->data->createProduct($request);
+        return $this->service->createProduct($request);
     }
 
     /**
@@ -59,7 +56,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return new Collection($this->data->productDetail($id));
+        return new Collection($this->service->productDetail($id));
     }
 
     /**

@@ -26,5 +26,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('products',ProductController::class)->only('index','store','show');
 Route::resource('types',TypeController::class)->except('create','edit');
 Route::resource('sliders',SliderController::class)->only('index','store');
-Route::resource('image-products',ImageProductController::class)->only('store');
+Route::resource('image-products',ImageProductController::class)->only('store','show');
 

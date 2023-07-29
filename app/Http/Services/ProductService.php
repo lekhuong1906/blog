@@ -14,17 +14,19 @@ class ProductService extends ProcessService
         $product = new Product();
         $product->fill($data->all());
         $product->save();
+
         return $this->formatJson(Product::all());
     }
-    public function productDetail($id){
 
+
+    public function productDetail($id){
         $product = Product::find($id);
         $data = json_decode(json_encode($product),true);
         $imageUrls = $this->getImage($product->id);
-        $data['product_color'] = $imageUrls;
 
+        $data['product_image'] = $imageUrls;
 
-        return ($data);
+        return $data;
     }
 
     public function getAllProduct(){
@@ -82,12 +84,11 @@ class ProductService extends ProcessService
 
     public function getImage($id)
     {
+        $data = [];
         $images = ImageProduct::where('product_id',$id)->get();
-        foreach ($images as $image){
-            $fileName = $image->image;
-            $imageUrls[] = asset('storage/products/'. $fileName);
-        }
-        return $imageUrls;
+        foreach ($images as $image)
+            array_push($data,$image->image_link);
+        return $data;
     }
 
 }

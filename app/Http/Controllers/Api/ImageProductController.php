@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ImageProductRequest;
 use App\Http\Services\ImageProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\ImageProduct;
@@ -13,10 +14,10 @@ use App\Models\ImageProduct;
 
 class ImageProductController extends Controller
 {
-    protected $data;
+    protected $service;
     public function __construct(ImageProductService $imageProductService)
     {
-        return $this->data = $imageProductService;
+        return $this->service = $imageProductService;
     }
 
     /**
@@ -52,47 +53,22 @@ class ImageProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ImageProductRequest $request)
+    public function store(Request $request)
     {
-        try {
-            $image = Str::random(32) . "." . $request->image->getClientOriginalExtension();
-            ImageProduct::create([
-                'product_id' => $request->product_id,
-                'image_product_name' => $request->image_product_name,
-                'image' => $image,
-                'image_product_description' => $request->image_product_description
-            ]);
-
-            Storage::putFileAs('public/products', $request->file('image'), $image);
-
-
-            return response()->json([
-                'message' => 'Success.'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        $this->service->createImage($request);
+        return response()->json(['message'=>'Success']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $productId
      * @return false|\Illuminate\Http\Response|string
      */
-    public function show($id)
+    public function show(int $productId)
     {
-        $products = ImageProduct::where('product_id',$id)->get();
-
-
-        $files = Storage::allFiles('public/sliders');
-        $imageUrls = [];
-        foreach ($files as $file) {
-            $imageUrls[] = asset('storage/'.str_replace('public/', '', $file));
-        }
-        return $this->data->formatJson($imageUrls);
+        $images_link = $this->service->showImage($productId);
+        return new Collection($images_link);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Type;
 use App\Http\Requests\TypeRequest;
 use App\Http\Services;
+use Illuminate\Database\Eloquent\Collection;
 
 class TypeController extends Controller
 {
@@ -24,7 +25,7 @@ class TypeController extends Controller
 
     public function index()
     {
-        return $this->data->formatJson(Type::all());
+        return new Collection(Type::all());
     }
 
     /**
@@ -48,7 +49,7 @@ class TypeController extends Controller
         $type->fill($request->all());
         $type->save();
 
-        return $this->data->formatJson(Type::all());
+        return new Collection(Type::all());
     }
 
     /**
