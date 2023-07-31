@@ -87,7 +87,7 @@ class ProductService extends ProcessService
         $data = [];
         $images = ImageProduct::where('product_id',$id)->get();
         foreach ($images as $image)
-            array_push($data,$image->image_link);
+            array_push($data,explode(',',$image->image_link));
         return $data;
     }
 

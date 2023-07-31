@@ -63,14 +63,14 @@ class ImageProductService extends ProcessService
     public function dataImage($request)
     {
         $images = [];
-        $images[] = $this->thumbNail($request->thumb_nail);
+        $images[] = $this->thumbnails($request->thumbnails);
         $imageList = $this->images($request->images);
         foreach ($imageList as $value)
             $images[] = $value;
         return $images;
     }
 
-    public function thumbNail($imageFile)
+    public function thumbnails($imageFile)
     {
         $thumbNail['file'] = $imageFile;
         $thumbNail['name'] = $this->setImageName($imageFile);
@@ -92,7 +92,7 @@ class ImageProductService extends ProcessService
 
     public function setImageName($imageFile)
     {
-        return Str::random(32) .'.'. $imageFile->getClientOriginalExtension();
+        return Str::random(32).'_'. $imageFile->getClientOriginalName();
     }
 
 
