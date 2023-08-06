@@ -25,9 +25,8 @@ class ImageProductRequest extends FormRequest
     {
         return [
             'product_id'=>'required',
-            'image_product_name'=>'required',
-            'image'=>'required|image',
-            'image_product_description'=>'required'
+            'image_name'=>'required',
+            'image'=>'required',
         ];
     }
 }
