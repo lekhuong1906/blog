@@ -56,6 +56,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $data = $this->service->getBackPack();
+
         return new Collection($this->service->productDetail($id));
     }
 

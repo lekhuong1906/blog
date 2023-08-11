@@ -7,14 +7,15 @@ use App\Models\Type;
 use App\Http\Requests\TypeRequest;
 use App\Http\Services;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Services\ProductService;
 
 class TypeController extends Controller
 {
 
-    protected $data;
-    public function __construct(Services\ProcessService $process_service)
+    protected $service;
+    public function __construct(ProductService $productService)
     {
-        $this->data = $process_service;
+        $this->service = $productService;
     }
 
     /**
@@ -58,9 +59,21 @@ class TypeController extends Controller
      * @param  int  $id
      * @return false|string
      */
-    public function show($id)
+    public function show($type_name)
     {
-        return $this->data->formatJson(Type::find($id));
+        switch ($type_name) {
+            case 'backpack': $data = $this->service->getBackPack();
+                break;
+
+            case 'wallet': $data = $this->service->getWallet();
+                break;
+            case 'crossbody': $data = $this->service->getCrossbody();
+                break;
+            case 'tote': $data = $this->service->getTote();
+                break;
+        }
+
+        return new Collection($data);
     }
 
     /**

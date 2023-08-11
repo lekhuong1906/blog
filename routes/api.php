@@ -25,22 +25,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-
-
 Route::post('/register', [AuthController::class, 'createUser']);
 Route::post('/login', [AuthController::class, 'loginUser'])->name('login');
 
-Route::middleware(['auth:sanctum'])->group(function (){
+Route::middleware(['auth:sanctum'])->group(function () {
 
 });
 
-Route::get('cart',[CartController::class,'showCart']);
-Route::post('add-to-cart',[CartController::class,'addToCart']);
-Route::resource('image-products',ImageProductController::class)->only('store','show');
-Route::resource('products',ProductController::class)->only('index','store','show');
-Route::resource('types',TypeController::class)->except('create','edit');
-Route::resource('sliders',SliderController::class)->only('index','store');
+Route::get('cart', [CartController::class, 'showCart']);
+Route::post('add-to-cart', [CartController::class, 'addToCart']);
+Route::resource('image-products', ImageProductController::class)->only('store', 'show');
+Route::resource('products', ProductController::class)->only('index', 'store', 'show');
+Route::resource('types', TypeController::class)->except('create', 'edit');
+Route::resource('sliders', SliderController::class)->only('index', 'store');
 
+
+Route::get('test', function () {
+
+});
 
 
 

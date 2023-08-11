@@ -30,11 +30,10 @@ class ProductService extends ProcessService
     }
 
     public function getAllProduct(){
-        $data['backPack']=$this->getBackPack();
-        $data['wallet']=$this->getWallet();
-        $data['tote']=$this->getTote();
-        $data['crossbody']=$this->getCrossbody();
-        return ($data);
+
+        $products = Product::all();
+        $arr = json_decode(json_encode($products),true);
+        return ($arr);
     }
 
     public function getBackPack(){
