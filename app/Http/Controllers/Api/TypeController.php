@@ -62,12 +62,12 @@ class TypeController extends Controller
     public function show($type_name)
     {
         switch ($type_name) {
-            case 'backpack': $data = $this->service->getBackPack();
+            case 'backpacks': $data = $this->service->getBackPack();
                 break;
 
-            case 'wallet': $data = $this->service->getWallet();
+            case 'wallets': $data = $this->service->getWallet();
                 break;
-            case 'crossbody': $data = $this->service->getCrossbody();
+            case 'crossbodies': $data = $this->service->getCrossbody();
                 break;
             case 'tote': $data = $this->service->getTote();
                 break;
