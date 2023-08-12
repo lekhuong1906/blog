@@ -96,7 +96,7 @@ class CartService
 
     public function updatePriceCart($cart_id){
         # Update Cart(total_price)
-        $total = CartDetail::where('cart_id',$cart_id)->sum('price');
+        $total = CartDetail::where('cart_id',$cart_id)->where('status',true)->sum('price');
         $cart = Cart::where('id',$cart_id)->first();
         $cart->total_price = $total;
         $cart->save();
