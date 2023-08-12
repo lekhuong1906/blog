@@ -69,7 +69,7 @@ class TypeController extends Controller
                 break;
             case 'crossbodies': $data = $this->service->getCrossbody();
                 break;
-            case 'tote': $data = $this->service->getTote();
+            case 'totes': $data = $this->service->getTote();
                 break;
         }
 

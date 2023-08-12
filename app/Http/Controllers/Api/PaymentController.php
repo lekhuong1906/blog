@@ -36,9 +36,9 @@ class PaymentController extends Controller
 
             $payment_id = Subscription::lastItem();
 
-            $this->service->create_ticket($payment_id);
 
-            $this->service->send_mail();
+
+
             return redirect()->route('home')->with('message', 'Payment Completed');
 
         } else

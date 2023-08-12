@@ -44,7 +44,7 @@ class PaymentService
         try {
             $charge = $this->stripe->charges->create([
                 'amount' => $amount,
-                'currency' => 'usd',
+                'currency' => 'vnd',
                 'source' => $tokenId,
                 'description' => 'My first payment'
             ]);
