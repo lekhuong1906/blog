@@ -32,9 +32,11 @@ class ProductService extends ProcessService
     public function productDetail($id){
         $product = Product::find($id);
         $data = json_decode(json_encode($product),true);
-        $imageUrls = $this->getImage($product->id);
 
-        $data['product_images'] = $imageUrls;
+        $images = ImageProduct::where('product_id',$id)->get();
+        foreach ($images as $image){
+            $data['product_images'] = explode(',',$image->image_link);
+        }
 
         return $data;
     }
@@ -86,10 +88,9 @@ class ProductService extends ProcessService
 
     public function getImage($id)
     {
-        $data = [];
         $images = ImageProduct::where('product_id',$id)->get();
         foreach ($images as $image)
-            array_push($data,explode(',',$image->image_link));
+            $data = explode(',',$image->image_link);
         return $data;
     }
 
