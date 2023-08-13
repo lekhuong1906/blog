@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\SliderController;
+
+use App\Models\ImageProduct;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TypeController;
@@ -58,6 +60,22 @@ Route::resource('sliders', SliderController::class)->only('index', 'store');
 
 Route::get('test', function () {
 
+    $images = ImageProduct::get();
+    foreach($images as $image){
+        $links = explode(',',$image->image_link);
+        $a = [];
+        foreach ($links as $link){
+            $head = explode('blog.test/',$link);
+            $a[] = $head[0] . 'blog.test:8080/' . $head[1];
+        }
+        $b = implode(',',$a);
+        $image->image_link = $b;
+        $image->save();
+    }
+
+    return response()->json([
+        'message'=>'Xong roài đóa anh troai'
+    ]);
 });
 
 
