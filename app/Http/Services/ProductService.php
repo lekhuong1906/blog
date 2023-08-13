@@ -19,21 +19,24 @@ class ProductService extends ProcessService
     }
 
 
+    public function getAllProduct(){
+
+        $products = Product::all();
+        $data = [];
+        foreach ($products as $product)
+            array_push($data,$this->productDetail($product->id));
+
+        return $data;
+    }
+
     public function productDetail($id){
         $product = Product::find($id);
         $data = json_decode(json_encode($product),true);
         $imageUrls = $this->getImage($product->id);
 
-        $data['product_image'] = $imageUrls;
+        $data['product_images'] = $imageUrls;
 
         return $data;
-    }
-
-    public function getAllProduct(){
-
-        $products = Product::all();
-        $arr = json_decode(json_encode($products),true);
-        return ($arr);
     }
 
     public function getBackPack(){
@@ -42,7 +45,7 @@ class ProductService extends ProcessService
         foreach ($backPacks as $backPack){
             $image = $this->getImage($backPack->id);
             $arr = json_decode(json_encode($backPack),true);
-            $arr['product_image'] = $image;
+            $arr['product_images'] = $image;
             array_push($data,$arr);
         }
         return $data;
@@ -53,7 +56,7 @@ class ProductService extends ProcessService
         foreach ($wallets as $wallet){
             $image = $this->getImage($wallet->id);
             $arr = json_decode(json_encode($wallet),true);
-            $arr['product_image'] = $image;
+            $arr['product_images'] = $image;
             array_push($data,$arr);
         }
         return $data;
@@ -64,7 +67,7 @@ class ProductService extends ProcessService
         foreach ($totes as $tote){
             $image = $this->getImage($tote->id);
             $arr = json_decode(json_encode($tote),true);
-            $arr['product_image'] = $image;
+            $arr['product_images'] = $image;
             array_push($data,$arr);
         }
         return $data;
@@ -75,7 +78,7 @@ class ProductService extends ProcessService
         foreach ($crossbodys as $crossbody){
             $image = $this->getImage($crossbody->id);
             $arr = json_decode(json_encode($crossbody),true);
-            $arr['product_image'] = $image;
+            $arr['product_images'] = $image;
             array_push($data,$arr);
         }
         return $data;
