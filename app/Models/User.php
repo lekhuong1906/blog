@@ -46,4 +46,12 @@ class User extends Authenticatable
     {
         return $this->is_admin;
     }
+
+    public function address(){
+        $this->hasMany(Address::class,'id','user_id');
+    }
+
+    public function receipt(){
+        $this>$this->hasMany(Receipt::class,'id','user_id');
+    }
 }

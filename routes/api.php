@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
@@ -34,7 +36,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 Route::middleware(['auth:sanctum','admin'])->group(function () {
-    // Các route của trang admin
+    Route::get('receipts',[ReceiptController::class,'index']);
 });
 
 
@@ -43,7 +45,9 @@ Route::middleware(['auth:sanctum','customer'])->group(function () {
     Route::get('cart',[CartController::class,'showCart']);
     Route::post('add-to-cart',[CartController::class,'addToCart']);
     Route::post('update-cart',[CartController::class,'updateCart']);
-    Route::resource('address',AddressController::class)->except('create','edit');
+    Route::resource('addresses',AddressController::class)->except('create','edit');
+    Route::resource('receipts',ReceiptController::class)->except('index');
+    Route::resource('orders',OrderController::class)->except('create','edit','destroy');
 });
 
 
@@ -52,7 +56,7 @@ Route::resource('products', ProductController::class)->only('index', 'store', 's
 Route::resource('types', TypeController::class)->except('create', 'edit');
 Route::resource('sliders', SliderController::class)->only('index', 'store');
 
-use App\Models\ImageProduct;
+/*use App\Models\ImageProduct;
 Route::get('test',function (){
 
    $images = ImageProduct::get();
@@ -71,6 +75,6 @@ Route::get('test',function (){
     return response()->json([
         'message'=>'Xong roài đóa anh troai',
     ]);
-});
+});*/
 
 
