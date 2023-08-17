@@ -35,15 +35,13 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::resource('products', ProductController::class)->only('index', 'show');
 Route::resource('types', TypeController::class)->except('create', 'edit');
+Route::resource('sliders', SliderController::class)->only('index', 'store');
 
 /*--------------------Admin--------------------*/
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index']);
     Route::post('products', [ProductController::class, 'store']);
-    Route::post('specifications',[SpecificationController::class,'store']);
     Route::resource('image-products', ImageProductController::class)->only('store', 'show');
-    Route::resource('sliders', SliderController::class)->only('index', 'store');
-
 });
 /*---------------------------------------------*/
 
@@ -77,25 +75,5 @@ Route::get('test', function () {
     return 'Success';
 });
 
-/*use App\Models\ImageProduct;
-Route::get('test',function (){
-
-   $images = ImageProduct::get();
-    foreach ($images as $image){
-        $image_links = explode(',',$image->image_link);
-        $a = [];
-        foreach ($image_links as $image_link){
-            $head = explode('blog.test/',$image_link);
-            $a[] = $head[0].'blog.test:8080/'.$head[1];
-
-        }
-        $image->image_link = implode(',',$a);
-        $image->save();
-    }
-
-    return response()->json([
-        'message'=>'Xong roài đóa anh troai',
-    ]);
-});*/
 
 
