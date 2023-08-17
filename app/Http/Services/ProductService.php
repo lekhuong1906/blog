@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\ImageProduct;
 use App\Models\Product;
+use App\Models\ProductDescription;
 
 
 class ProductService extends ProcessService
@@ -33,6 +34,13 @@ class ProductService extends ProcessService
         $product = Product::find($id);
         $data = json_decode(json_encode($product),true);
 
+        $detail = ProductDescription::find($product->product_description_id);
+        $data['introduce'] = $detail->introduce;
+        $data['material'] = $detail->material;
+        $data['size'] = $detail->size;
+        $data['contain'] = $detail->contain;
+        $data['other'] = $detail->other;
+
         $images = ImageProduct::where('product_id',$id)->get();
         foreach ($images as $image){
             $data['product_images'] = explode(',',$image->image_link);
@@ -43,11 +51,9 @@ class ProductService extends ProcessService
 
     public function getBackPack(){
         $data=[];
-        $backPacks = Product::where('product_type',1)->get();
-        foreach ($backPacks as $backPack){
-            $image = $this->getImage($backPack->id);
-            $arr = json_decode(json_encode($backPack),true);
-            $arr['product_images'] = $image;
+        $backpacks = Product::where('product_type',1)->get();
+        foreach ($backpacks as $backpack){
+            $arr = $this->productDetail($backpack->id);
             array_push($data,$arr);
         }
         return $data;
@@ -56,9 +62,7 @@ class ProductService extends ProcessService
         $data=[];
         $wallets = Product::where('product_type',2)->get();
         foreach ($wallets as $wallet){
-            $image = $this->getImage($wallet->id);
-            $arr = json_decode(json_encode($wallet),true);
-            $arr['product_images'] = $image;
+            $arr = $this->productDetail($wallet->id);
             array_push($data,$arr);
         }
         return $data;
@@ -67,9 +71,7 @@ class ProductService extends ProcessService
         $data=[];
         $totes = Product::where('product_type',3)->get();
         foreach ($totes as $tote){
-            $image = $this->getImage($tote->id);
-            $arr = json_decode(json_encode($tote),true);
-            $arr['product_images'] = $image;
+            $arr = $this->productDetail($tote->id);
             array_push($data,$arr);
         }
         return $data;
@@ -78,9 +80,7 @@ class ProductService extends ProcessService
         $data=[];
         $crossbodys = Product::where('product_type',4)->get();
         foreach ($crossbodys as $crossbody){
-            $image = $this->getImage($crossbody->id);
-            $arr = json_decode(json_encode($crossbody),true);
-            $arr['product_images'] = $image;
+            $arr = $this->productDetail($crossbody->id);
             array_push($data,$arr);
         }
         return $data;

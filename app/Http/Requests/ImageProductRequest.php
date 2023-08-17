@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class ImageProductRequest extends FormRequest
 {
@@ -25,8 +27,8 @@ class ImageProductRequest extends FormRequest
     {
         return [
             'product_id'=>'required',
-            'image_name'=>'required',
-            'image'=>'required',
+            'thumbnails'=>'required',
+            'images'=>'required',
         ];
     }
 }

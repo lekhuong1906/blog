@@ -35,13 +35,9 @@ class ImageProductService extends ProcessService
             $this->importImage($dataImport);
 
 
-            return response()->json([
-                'message' => 'Success.'
-            ]);
+            return 'Import Image Product Success';
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+            return $e->getMessage();
         }
     }
 

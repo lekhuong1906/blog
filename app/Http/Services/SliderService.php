@@ -4,42 +4,46 @@
 namespace App\Http\Services;
 
 
-use App\Http\Requests\SliderRequest;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class SliderService
 {
-    public function getSlider(){
-        $files = Storage::allFiles('public/sliders');
-        $imageUrl = [];
-        foreach ($files as $file){
-            $imageUrl[] = asset('storage/'.str_replace('public/','',$file));
-        }
-        return $imageUrl;
+    public function getSlider()
+    {
+        $image_links = Slider::orderby('id','desc')->take(3)->get();
+        foreach ($image_links as $image_link)
+            $data[] = $image_link->slider_image_link;
+        return $data;
     }
 
-    public function createSlider($request){
+    public function createSlider($request)
+    {
         try {
-            $image = Str::random(32) . "." . $request->image->getClientOriginalExtension();
+            $validate = Validator::make($request->all(), [
+                'image' => 'required|image',
+            ]);
+
+            if ($validate->fails())
+                return $validate->errors();
+
+            $image_name = Str::random(32) . "." . $request->image->getClientOriginalName();
+
+            Storage::putFileAs('public/sliders', $request->file('image'), $image_name);
+
+            $image_link = 'https://blog.test:8080/storage/sliders/' . $image_name;
 
             Slider::create([
-                'image_name' => $request->image_name,
-                'image' => $image,
-                'image_description' => $request->image_description
+                'slider_name' => $image_name,
+                'slider_image_link' => $image_link,
+                'slider_description' => $request->description
             ]);
 
-            Storage::putFileAs('public/sliders', $request->file('image'), $image);
-
-
-            return response()->json([
-                'message' => 'Success.'
-            ]);
+            return 'Add Slider Successfully';
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+            return $e->getMessage();
         }
     }
 

@@ -13,12 +13,16 @@ class Product extends Model
     protected $fillable = [
         'product_name',
         'product_type',
-        'product_description',
+        'product_description_id',
         'product_price',
         'product_stock'
     ];
     public function type(){
         return $this->belongsTo(Type::class,'product_type','id');
+    }
+
+    public function productDescription(){
+        return $this->hasOne(ProductDescription::class,'product_description_id','id');
     }
 
     public function imageProduct(){

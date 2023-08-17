@@ -27,14 +27,7 @@ class ImageProductController extends Controller
      */
     public function index()
     {
-        $files = Storage::allFiles('public/products');
 
-        $imageUrls = [];
-
-        foreach ($files as $file) {
-            $imageUrls[] = asset('storage/'.str_replace('public/', '', $file));
-        }
-        return $this->data->formatJson($imageUrls);
     }
 
     /**
@@ -53,10 +46,10 @@ class ImageProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(ImageProductRequest $request)
     {
-        $this->service->createImage($request);
-        return response()->json(['message'=>'Success']);
+        $message = $this->service->createImage($request);
+        return response()->json(['message'=>$message]);
     }
 
     /**

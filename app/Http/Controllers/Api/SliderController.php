@@ -46,15 +46,12 @@ class SliderController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(SliderRequest $request)
+    public function store(Request $request)
     {
-
-        $this->service->createSlider($request);
-
-
-        /**/
-
-
+        $message = $this->service->createSlider($request);
+        return response()->json([
+            'message' => $message,
+        ]);
     }
 
     /**

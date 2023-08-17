@@ -3,11 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Type;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
-class TypeSeeder extends Seeder
+class AddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +13,6 @@ class TypeSeeder extends Seeder
      */
     public function run()
     {
-        Type::factory()->count(10)->create();
+        //
     }
 }
