@@ -29,11 +29,11 @@ class SliderService
             if ($validate->fails())
                 return $validate->errors();
 
-            $image_name = Str::random(32) . "." . $request->image->getClientOriginalName();
+            $image_name = Str::random(32) . $request->image->getClientOriginalName();
 
             Storage::putFileAs('public/sliders', $request->file('image'), $image_name);
 
-            $image_link = 'https://blog.test:8080/storage/sliders/' . $image_name;
+            $image_link = 'http://blog.test:8080/storage/sliders/' . $image_name;
 
             Slider::create([
                 'slider_name' => $image_name,
