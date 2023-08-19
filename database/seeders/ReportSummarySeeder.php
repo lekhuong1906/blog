@@ -19,14 +19,15 @@ class ReportSummarySeeder extends Seeder
         $receipts = Receipt::count('id');
         $time = Carbon::create(2023,07,01);
         for ($i=0;$i<$receipts;$i++){
-            $revenue = Receipt::whereDate('created_at','<',$time->addDay())->sum('total_amount');
+            $revenue = Receipt::whereDate('created_at','<',$time)->sum('total_amount');
             $order = Receipt::whereDate('created_at','<',$time)->count('id');
             ReportSummary::create([
                 'revenue'=>$revenue,
                 'total_order'=>$order,
                 'total_receipt'=>$order,
-                'created_at'=>$time->addDay(),
+                'created_at'=>$time,
             ]);
+            $time->addDay();
         }
     }
 }

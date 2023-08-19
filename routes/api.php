@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('products', [ProductController::class, 'store']);
     Route::resource('image-products', ImageProductController::class)->only('store', 'show');
     Route::get('show-dashboard',[ReportSummaryController::class,'showDashboard']);
+    Route::post('update-filter',[ReportSummaryController::class,'getFilter']);
 
 });
 /*---------------------------------------------*/
@@ -66,7 +67,6 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
 Route::get('test', function () {
 
-    dd(\App\Models\User::get()->value('id'));
 });
 
 
