@@ -15,16 +15,19 @@ class CartService
 {
     public function showCart()
     {
+        $cart = Cart::where('user_id',\auth()->id())->first();
+
         $cartDetails = User::join('carts', 'users.id', '=', 'carts.user_id')
             ->join('cart_details', 'carts.id', '=', 'cart_details.cart_id')
             ->where('users.id', \auth()->id())
             ->select('cart_details.*')->get();
 
-        try {
+
             $data = [];
             foreach ($cartDetails as $cartDetail) {
                 $product = Product::find($cartDetail->product_id);
                 $item = [
+                    'product_id'=> $product->id,
                     'product_name' => $product->product_name,
                     'product_price' => $product->product_price,
                     'quantity' => $cartDetail->quantity,
@@ -32,13 +35,9 @@ class CartService
                 ];
                 array_push($data, $item);
             }
-            $cart['item'] = $data;
+            $cart['items'] = $data;
             $total = Cart::where('user_id', \auth()->id())->first();
             $cart['total'] = $total->total_price;
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage(),]);
-        }
-
 
         return $cart;
     }
@@ -99,11 +98,14 @@ class CartService
         $product = Product::where('id', $product_id)->first();
         $cart_detail = CartDetail::where('cart_id', $cart_id)->where('product_id', $product_id)->first();
 
+        if ($quantity == 0){ //Update Status Quantity If Quantity = 0
+            return $cart_detail->delete();
+        }
+
         $cart_detail->quantity = $quantity;
         $cart_detail->price = $product->product_price * $quantity;
 
-        if ($quantity == 0) //Update Status Quantity If Quantity = 0
-            $cart_detail->status = 0;
+
 
         $cart_detail->save();
     }

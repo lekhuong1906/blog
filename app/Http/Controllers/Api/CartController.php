@@ -21,8 +21,20 @@ class CartController extends Controller
 
     public function showCart()
     {
-
-        return json_decode(json_encode($this->service->showCart()), true);
+        $cart = Cart::where('user_id',\auth()->id())->first();
+        if (empty($cart))
+            return response()->json([
+                'message'=>'Cart is empty!'
+            ]);
+        else {
+            $cart_detail = $this->service->showCart();
+            if (empty($cart_detail->items)){
+                return response()->json([
+                    'message'=>'Cart is empty!'
+                ]);
+            }
+            return json_decode(json_encode($cart_detail), true);
+        }
     }
 
     public function addToCart(Request $request)

@@ -6,12 +6,13 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\SliderController;
-use App\Http\Controllers\Api\SpecificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\ImageProductController;
+use App\Http\Controllers\Api\ReportSummaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index']);
     Route::post('products', [ProductController::class, 'store']);
     Route::resource('image-products', ImageProductController::class)->only('store', 'show');
+    Route::get('show-dashboard',[ReportSummaryController::class,'showDashboard']);
+
 });
 /*---------------------------------------------*/
 
@@ -60,19 +63,10 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 /*---------------------------------------------*/
 
 
-use App\Models\CartDetail;
-use App\Http\Requests;
-
 
 Route::get('test', function () {
 
-    $details = \App\Models\ProductDescription::skip(24)->take(5)->get();
-    foreach ($details as $detail){
-        $detail->other = 'Ngăn chống sốc: Đựng vừa laptop 14"';
-        $detail->save();
-    }
-
-    return 'Success';
+    dd(\App\Models\User::get()->value('id'));
 });
 
 

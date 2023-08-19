@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
@@ -22,11 +23,11 @@ class CartDetailSeeder extends Seeder
             $product_price = $product->product_price;
 
             CartDetail::create([
-                'cart_id' => random_int(1, 5),
+                'cart_id' => random_int(2,19),
                 'product_id' => $product_id,
                 'quantity' => $quantity,
                 'price' => $quantity * $product_price,
-                'status'=>1
+                'status'=>0
             ]);
         }
     }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Http\Services\ReceiptService;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartDetail;
 use App\Models\Receipt;
@@ -18,8 +19,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            UserSeeder::class,
+            AddressSeeder::class,
+            CartSeeder::class,
             CartDetailSeeder::class,
             ReceiptSeeder::class,
+            ReportSummarySeeder::class,
         ]);
     }
 }
