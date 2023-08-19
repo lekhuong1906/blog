@@ -16,6 +16,8 @@ class ProductService extends ProcessService
         $product->fill($data->all());
         $product->save();
 
+        route('import-product');
+
         return $this->formatJson(Product::all());
     }
 

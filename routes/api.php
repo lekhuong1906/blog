@@ -42,7 +42,9 @@ Route::resource('sliders', SliderController::class)->only('index', 'store');
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index']);
     Route::post('products', [ProductController::class, 'store']);
-    Route::resource('image-products', ImageProductController::class)->only('store', 'show');
+
+    Route::post('image-products', [ImageProductController::class,'store'])->name('import-images');
+    Route::get('image-products',[ImageProductController::class,'show']);
     Route::get('show-dashboard',[ReportSummaryController::class,'showDashboard']);
     Route::post('update-filter',[ReportSummaryController::class,'getFilter']);
 

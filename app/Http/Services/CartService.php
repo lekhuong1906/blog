@@ -66,7 +66,8 @@ class CartService
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
                 'quantity' => $quantity,
-                'price' => $quantity * $product->product_price
+                'price' => $quantity * $product->product_price,
+                'status'=>1
             ]);
 
             $this->updatePriceCart($cart->id);
