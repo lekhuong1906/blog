@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
-use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
@@ -60,7 +59,6 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
     Route::resource('addresses', AddressController::class)->except('create', 'edit');
     Route::resource('receipts', ReceiptController::class)->except('index');
-    Route::resource('orders', OrderController::class)->except('create', 'edit', 'destroy');
 });
 
 /*---------------------------------------------*/

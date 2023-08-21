@@ -18,20 +18,22 @@ class ReceiptService extends OrderService
 
         $cart_id = $request->cart_id;
         $user_id = $request->user_id;
-        $address_id = $request->address_id;
 
         $cart = Cart::find($cart_id);
         $total_amount = $cart->total_price;
 
         $new_receipt = new Receipt();
         $new_receipt->user_id = $user_id;
-        $new_receipt->address_id = $address_id;
+        $new_receipt->receiver_name = $request->receiver_name;
+        $new_receipt->contact_number = $request->contact_number;
+        $new_receipt->specific_address = $request->specific_address;
         $new_receipt->total_amount = $total_amount;
         $new_receipt->save();
 
         $receipt_id = $new_receipt->id;
         $this->addNewOrder($cart,$receipt_id);
     }
+
 
     public function updateReceiptStatus($id){
         $receipt = Receipt::find($id);
@@ -41,7 +43,7 @@ class ReceiptService extends OrderService
 
     public function showAllReceipt(){  //For admin
         $receipts = Receipt::all();
-        dd($receipts);
+        return $receipts;
     }
 
     public function showReceiptDetail($id){
@@ -49,7 +51,7 @@ class ReceiptService extends OrderService
 
         $this->getUserDetail($receipt->user_id);
         $this->getOrderDetail($id);
-        $this->getAddressDetail($receipt->address_id);
+        $this->getAddressDetail($receipt->id);
         $this->getReceiptDetail($id);
 
         return json_decode(json_encode($this->data),true);
@@ -60,11 +62,11 @@ class ReceiptService extends OrderService
         $this->data['user_name'] = $user->name;
         $this->data['email'] = $user->email;
     }
-    public function getAddressDetail($address_id){
-        $address = Address::find($address_id);
-        $this->data['receiver_name'] = $address->receiver_name;
-        $this->data['contact_number'] = $address->contact_number;
-        $this->data['specific_address'] = $address->specific_address;
+    public function getAddressDetail($receipt_id){
+        $receipt = Receipt::find($receipt_id);
+        $this->data['receiver_name'] = $receipt->receiver_name;
+        $this->data['contact_number'] = $receipt->contact_number;
+        $this->data['specific_address'] = $receipt->specific_address;
     }
     public function getReceiptDetail($receipt_id){
         $receipt = Receipt::find($receipt_id);
