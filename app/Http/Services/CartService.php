@@ -6,6 +6,7 @@ namespace App\Http\Services;
 
 use App\Models\Cart;
 use App\Models\CartDetail;
+use App\Models\ImageProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,12 +23,12 @@ class CartService
             ->where('users.id', \auth()->id())
             ->select('cart_details.*')->get();
 
-
             $data = [];
             foreach ($cartDetails as $cartDetail) {
                 $product = Product::find($cartDetail->product_id);
                 $item = [
                     'product_id'=> $product->id,
+                    'image'=>$this->getImage($product->id),
                     'product_name' => $product->product_name,
                     'product_price' => $product->product_price,
                     'quantity' => $cartDetail->quantity,
@@ -94,6 +95,14 @@ class CartService
         }
     }
 
+    public function getImage($product_id)
+    {
+        $image = ImageProduct::where('product_id',$product_id)->first();
+
+        $image_links = explode(',', $image->image_link);
+
+        return $image_links[0];
+    }
     public function cartDetailUpdate($cart_id, $product_id, $quantity)
     {
         $product = Product::where('id', $product_id)->first();
