@@ -27,6 +27,7 @@ class CartService
             foreach ($cartDetails as $cartDetail) {
                 $product = Product::find($cartDetail->product_id);
                 $item = [
+                    'cart_detail_id' => $cartDetail->id,
                     'product_id'=> $product->id,
                     'image'=>$this->getImage($product->id),
                     'product_name' => $product->product_name,

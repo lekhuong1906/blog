@@ -27,6 +27,12 @@ class OrderService
         }
     }
 
+    /*public function updateProductStock($product_id,$quantity){
+        $product = Product::find($product_id);
+        $product->product_stock -= $quantity;
+        $product->save();
+    }*/
+
 
 
     public function addNewOrderDetail($receipt_id,$product_id,$quantity){

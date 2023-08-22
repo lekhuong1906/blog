@@ -45,7 +45,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        return $this->service->createProduct($request);
+        $message = $this->service->createProduct($request);
+        return response()->json(['message'=>$message]);
     }
 
     /**
@@ -75,11 +76,12 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-
+        $message = $this->service->updateProduct($request,$id);
+        return response()->json(['message'=>$message]);
     }
 
     /**

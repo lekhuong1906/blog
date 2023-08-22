@@ -1,16 +1,15 @@
 <?php
 
-use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\SliderController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TypeController;
-use App\Http\Controllers\Api\ImageProductController;
 use App\Http\Controllers\Api\ReportSummaryController;
 
 /*
@@ -40,10 +39,10 @@ Route::resource('sliders', SliderController::class)->only('index', 'store');
 /*--------------------Admin--------------------*/
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index']);
-    Route::post('products', [ProductController::class, 'store']);
 
-    Route::post('image-products', [ImageProductController::class,'store'])->name('import-images');
-    Route::get('image-products',[ImageProductController::class,'show']);
+    Route::resource('products', ProductController::class)->only('store', 'update');
+
+
     Route::get('show-dashboard',[ReportSummaryController::class,'showDashboard']);
     Route::post('update-filter',[ReportSummaryController::class,'getFilter']);
 
@@ -56,8 +55,8 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
     Route::get('cart', [CartController::class, 'showCart']);
     Route::post('add-to-cart', [CartController::class, 'addToCart']);
     Route::post('update-cart', [CartController::class, 'updateCart'])->name('update-cart');
+    Route::delete('delete-item/{id}',[CartController::class,'deleteCartItem']);
 
-    Route::resource('addresses', AddressController::class)->except('create', 'edit');
     Route::resource('receipts', ReceiptController::class)->except('index');
 });
 

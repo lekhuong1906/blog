@@ -23,7 +23,7 @@ class SliderService
     {
         try {
             $validate = Validator::make($request->all(), [
-                'image' => 'required|image',
+                'image' => 'required',
             ]);
 
             if ($validate->fails())

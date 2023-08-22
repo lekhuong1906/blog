@@ -8,30 +8,17 @@ use App\Models\ImageProduct;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class ImageProductService extends ProcessService
+class ImageProductService
 {
-    public function showImage($productId){
-        try {
-            $images = ImageProduct::where('product_id',$productId)->first();
-            $images_link = explode(',',$images->image_link);
-
-            return $images_link;
-        } catch (\Exception $exception){
-            return response()->json([
-                'message'=>$exception->getMessage(),
-            ]);
-        }
-
-    }
-
-    public function createImage($request)
+    public function createImage($request,$product_id)
     {
         try {
-            $images = $this->dataImage($request);
+            $images = $this->dataImage($request); // Get image files
 
-            $this->importStorage($images);
+            $this->importStorage($images);  // Import to Storage
 
-            $dataImport = $this->dataImport($images);
+            $dataImport = $this->dataImport($images,$product_id); // Get Data to import into DB
+
             $this->importImage($dataImport);
 
 
@@ -41,7 +28,8 @@ class ImageProductService extends ProcessService
         }
     }
 
-    public function dataImport($images)
+
+    public function dataImport($images,$product_id)  // Create Data to Import into DB
     {
         $arrName = array();
         $arrLink = array();
@@ -50,13 +38,14 @@ class ImageProductService extends ProcessService
             array_push($arrLink, $image['link']);
         }
         return [
-            'product_id' => request()->product_id,
+            'product_id' => $product_id,
             'image_name' => implode(',', $arrName),
             'image_link' => implode(',', $arrLink),
         ];
     }
 
-    public function dataImage($request)
+
+    public function dataImage($request) // Merge images
     {
         $images = [];
         $images[] = $this->thumbnails($request->thumbnails);
@@ -86,7 +75,7 @@ class ImageProductService extends ProcessService
         return $data;
     }
 
-    public function setImageName($imageFile)
+    public function setImageName($imageFile)  // Set image name
     {
         return Str::random(32).'_'. $imageFile->getClientOriginalName();
     }
@@ -107,6 +96,6 @@ class ImageProductService extends ProcessService
 
     public function getUrlImage($imageName)
     {
-        return asset('storage/products/' . $imageName);
+        return ('http://blog.test:8080/storage/products/' . $imageName);
     }
 }

@@ -13,7 +13,6 @@ class Product extends Model
     protected $fillable = [
         'product_name',
         'product_type',
-        'product_description_id',
         'product_price',
         'product_stock'
     ];
@@ -22,7 +21,7 @@ class Product extends Model
     }
 
     public function productDescription(){
-        return $this->hasOne(ProductDescription::class,'product_description_id','id');
+        return $this->hasOne(ProductDescription::class,'id','product_id');
     }
 
     public function imageProduct(){

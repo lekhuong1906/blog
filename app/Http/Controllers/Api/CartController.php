@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Services\CartService;
 use App\Models\Cart;
+use App\Models\CartDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,20 @@ class CartController extends Controller
         return response()->json([
             'message' => 'Success',
         ]);
+    }
+
+    public function deleteCartItem($id){
+        try {
+            $cart_detail = CartDetail::find($id);
+            $cart_id = $cart_detail->cart->id;
+            $cart_detail->delete();
+
+            $this->service->updatePriceCart($cart_id);
+            return response()->json(['message'=>'Delete Item Successfully']);
+        } catch (\Exception $e){
+            return response()->json(['message'=>$e->getMessage()]);
+        }
+
     }
 
 
