@@ -38,6 +38,7 @@ Route::resource('sliders', SliderController::class)->only('index', 'store');
 
 /*--------------------Admin--------------------*/
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+
     Route::get('receipts', [ReceiptController::class, 'index']);
 
     Route::resource('products', ProductController::class)->only('store', 'update');

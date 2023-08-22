@@ -24,8 +24,8 @@ class ReceiptService extends OrderService
 
         $new_receipt = new Receipt();
         $new_receipt->user_id = $user_id;
-        $new_receipt->iver_name = $request->receiver_name;
-        $new_receipt->contact_numberecer = $request->contact_number;
+        $new_receipt->receiver_name = $request->receiver_name;
+        $new_receipt->contact_number = $request->contact_number;
         $new_receipt->specific_address = $request->specific_address;
         $new_receipt->total_amount = $total_amount;
         $new_receipt->save();

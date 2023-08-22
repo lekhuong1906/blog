@@ -3,15 +3,11 @@
 
 namespace App\Http\Services;
 
-
-use App\Models\Cart;
-
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Receipt;
-use Mockery\Exception;
 
-class OrderService
+
+class OrderService extends CartService
 {
 
     public function addNewOrder($cart,$receipt_id){
@@ -24,14 +20,25 @@ class OrderService
             $quantity = $cart_detail->quantity;
 
             $this->addNewOrderDetail($receipt_id,$product_id,$quantity);
+
+            $cart_detail->delete();
+
+            $this->updateProductStock($product_id,$quantity);
         }
+
+        $this->updatePriceCart($cart->id);
+
     }
 
-    /*public function updateProductStock($product_id,$quantity){
+    public function updateProductStock($product_id,$quantity){
         $product = Product::find($product_id);
         $product->product_stock -= $quantity;
         $product->save();
-    }*/
+    }
+
+    public function updateCart(){
+
+    }
 
 
 
