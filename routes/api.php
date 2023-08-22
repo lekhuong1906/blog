@@ -64,18 +64,7 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
 
 Route::get('test', function () {
-    try {
 
-        $descriptions = \App\Models\ProductDescription::all();
-        foreach ($descriptions as $description) {
-            $description->product_id = $description->id;
-            $description->save();
-        }
-
-        return response()->json(['message' => 'Successfully']);
-    } catch (Exception $e){
-        return response()->json(['message' => $e->getMessage()]);
-    }
 });
 
 
