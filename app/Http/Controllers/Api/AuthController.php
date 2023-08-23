@@ -68,12 +68,14 @@ class AuthController extends Controller
             if ($user->isAdmin())
                 return response()->json([
                     'message' => 'Logged in as admin',
-                    'token' => $token
+                    'token' => $token,
+                    'is_admin' =>true
                 ], 200);
             else
                 return response()->json([
                     'message' => 'Logged in as customer',
                     'token' => $token,
+                    'is_admin'=>false
                 ], 200);
         }
 

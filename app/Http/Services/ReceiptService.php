@@ -43,7 +43,11 @@ class ReceiptService extends OrderService
 
     public function showAllReceipt(){  //For admin
         $receipts = Receipt::all();
-        return $receipts;
+        $items = array();
+        foreach ($receipts as $receipt){
+            $items[] = $this->showReceiptDetail($receipt->id);
+        }
+        return $items;
     }
 
     public function showReceiptDetail($id){

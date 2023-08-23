@@ -18,11 +18,12 @@ class ReceiptController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection
      */
     public function index()
     {
-        $this->service->showAllReceipt();
+        $data = $this->service->showAllReceipt();
+        return new Collection($data);
     }
 
     /**

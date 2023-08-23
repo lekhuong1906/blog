@@ -40,6 +40,7 @@ Route::resource('sliders', SliderController::class)->only('index', 'store');
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::get('receipts', [ReceiptController::class, 'index']);
+    Route::get('receipts/{id}',[ReceiptController::class, 'show']);
 
     Route::resource('products', ProductController::class)->only('store', 'update');
 
@@ -53,12 +54,14 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 /*--------------------Home--------------------*/
 Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
+    /*Route::resource('receipts', ReceiptController::class)->except('index');*/
+
     Route::get('cart', [CartController::class, 'showCart']);
     Route::post('add-to-cart', [CartController::class, 'addToCart']);
     Route::post('update-cart', [CartController::class, 'updateCart'])->name('update-cart');
     Route::delete('delete-item/{id}', [CartController::class, 'deleteCartItem']);
 
-    Route::resource('receipts', ReceiptController::class)->except('index');
+
 });
 
 /*---------------------------------------------*/
