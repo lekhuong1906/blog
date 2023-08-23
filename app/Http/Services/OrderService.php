@@ -60,6 +60,8 @@ class OrderService extends CartService
         foreach ($orders as $order){
 
             $product = Product::find($order->product_id);
+
+            $product_detail['order_id'] = $order->id;
             $product_detail['product_name'] = $product->product_name;
             $product_detail['quantity'] = $order->quantity;
             $product_detail['unit_price'] = $product->product_price;
