@@ -5,6 +5,7 @@ namespace App\Http\Services;
 
 
 
+use App\Models\CartDetail;
 use Carbon\Carbon;
 use App\Models\ReportSummary;
 
@@ -37,6 +38,14 @@ class ReportSummaryService
         return $data;
     }
 
+    public function getBestSellingProduct(){
+        $now = new Carbon();
+        $cart_details = CartDetail::whereMonth('created_at',$now->month)->get();
+        foreach ($cart_details as $cart_detail){
+            $products['id'] = $cart_detail->product_id;
+            $products['quantity'] = $cart_detail->quantity;
+        }
+    }
     public function importData($revenue,$order,$receipt){
         $data['revenue'] = $revenue;
         $data['total_order'] = $order;

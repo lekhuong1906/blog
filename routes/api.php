@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\ReportSummaryController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +54,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('receipts', [ReceiptController::class, 'index']);
     Route::get('receipts/{id}',[ReceiptController::class, 'show']);
 
+    Route::resource('users',UserController::class)->except('create','destroy');
+
     # Manage Product
-    Route::resource('products', ProductController::class)->only('store', 'update');
+    Route::resource('products', ProductController::class)->only('store', 'update','destroy');
 
 });
 /*---------------------------------------------*/
@@ -70,7 +73,6 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
     # Order
     Route::post('receipts',[ReceiptController::class,'store']);
-
 
 });
 

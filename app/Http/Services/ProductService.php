@@ -71,6 +71,7 @@ class ProductService extends ImageProductService
             'product_type' => 'required|numeric',
             'product_price' => 'required|numeric',
             'product_stock' => 'required|numeric',
+            'status'=>'required',
 
             'introduce' => 'required',
             'material' => 'required',

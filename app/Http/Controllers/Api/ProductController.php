@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\ProductService;
+use App\Models\Product;
+use App\Models\ProductDescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -88,10 +90,16 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+        $product_detail = ProductDescription::where('product_id',$id)->first();
+        $product_detail->delete();
+        return response()->json([
+            'message'=>'Deleted Product Successfully',
+        ]);
     }
 }

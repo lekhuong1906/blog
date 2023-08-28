@@ -14,7 +14,8 @@ class Product extends Model
         'product_name',
         'product_type',
         'product_price',
-        'product_stock'
+        'product_stock',
+        'status',
     ];
     public function type(){
         return $this->belongsTo(Type::class,'product_type','id');
