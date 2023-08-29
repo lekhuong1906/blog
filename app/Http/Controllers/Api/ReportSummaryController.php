@@ -16,6 +16,7 @@ class ReportSummaryController extends Controller
     }
 
     public function showDashboard(){
+        $this->service->getBestSellingProduct();
         $filter = 0; // Set filter default = Year
         $data = $this->service->getReport($filter);
         return new Collection($data);

@@ -74,6 +74,9 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
     # Order
     Route::post('receipts',[ReceiptController::class,'store']);
 
+    Route::get('all-receipt-customer', [ReceiptController::class, 'allReceiptCustomer']);
+    Route::get('receipt-detail/{id}', [ReceiptController::class, 'show']);
+
 });
 
 /*---------------------------------------------*/

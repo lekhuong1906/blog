@@ -15,7 +15,7 @@ class ProductService extends ImageProductService
     public function getAllProduct()
     {
 
-        $products = Product::all();
+        $products = Product::where('status',1)->where('product_stock','>',0)->get();
         $data = [];
         foreach ($products as $product)
             array_push($data, $this->productDetail($product->id));
@@ -114,7 +114,7 @@ class ProductService extends ImageProductService
     public function getBackPack()
     {
         $data = [];
-        $backpacks = Product::where('product_type', 1)->get();
+        $backpacks = Product::where('product_type', 1)->where('status',1)->where('product_stock','>',0)->get();
         foreach ($backpacks as $backpack) {
             $arr = $this->productDetail($backpack->id);
             array_push($data, $arr);
@@ -125,7 +125,7 @@ class ProductService extends ImageProductService
     public function getWallet()
     {
         $data = [];
-        $wallets = Product::where('product_type', 2)->get();
+        $wallets = Product::where('product_type', 2)->where('status',1)->where('product_stock','>',0)->get();
         foreach ($wallets as $wallet) {
             $arr = $this->productDetail($wallet->id);
             array_push($data, $arr);
@@ -136,7 +136,7 @@ class ProductService extends ImageProductService
     public function getTote()
     {
         $data = [];
-        $totes = Product::where('product_type', 3)->get();
+        $totes = Product::where('product_type', 3)->where('status',1)->where('product_stock','>',0)->get();
         foreach ($totes as $tote) {
             $arr = $this->productDetail($tote->id);
             array_push($data, $arr);
@@ -147,7 +147,7 @@ class ProductService extends ImageProductService
     public function getCrossbody()
     {
         $data = [];
-        $crossbodys = Product::where('product_type', 4)->get();
+        $crossbodys = Product::where('product_type', 4)->where('status',1)->where('product_stock','>',0)->get();
         foreach ($crossbodys as $crossbody) {
             $arr = $this->productDetail($crossbody->id);
             array_push($data, $arr);

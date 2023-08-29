@@ -27,6 +27,19 @@ class ReceiptController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return Collection
+     */
+    public function allReceiptCustomer()
+    {
+        $data = $this->service->showAllReceiptCustomer();
+        if ($data == null)
+            $data = ['message'=>'Receipt is Empty!'];
+        return new Collection($data);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

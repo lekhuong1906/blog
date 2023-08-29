@@ -6,8 +6,10 @@ namespace App\Http\Services;
 
 
 use App\Models\CartDetail;
+use App\Models\Order;
 use Carbon\Carbon;
 use App\Models\ReportSummary;
+use Illuminate\Support\Facades\DB;
 
 class ReportSummaryService
 {
@@ -40,16 +42,20 @@ class ReportSummaryService
 
     public function getBestSellingProduct(){
         $now = new Carbon();
-        $cart_details = CartDetail::whereMonth('created_at',$now->month)->get();
-        foreach ($cart_details as $cart_detail){
-            $products['id'] = $cart_detail->product_id;
-            $products['quantity'] = $cart_detail->quantity;
-        }
+
+        $bestSellingProduct = Order::select('product_id',DB::raw('SUM(quantity) as total_quantity'))
+            ->whereMonth('created_at',$now->month)
+            ->groupBy('product_id')
+            ->orderByDesc('total_quantity')
+            ->get();
+
+         dd (json_decode(json_encode($bestSellingProduct),true));
     }
     public function importData($revenue,$order,$receipt){
         $data['revenue'] = $revenue;
         $data['total_order'] = $order;
         $data['total_receipt'] = $receipt;
+//        $data['bestselling_product'] = $bestselling_products;
         return $data;
     }
 

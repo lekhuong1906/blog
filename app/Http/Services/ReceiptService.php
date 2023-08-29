@@ -14,6 +14,28 @@ class ReceiptService extends OrderService
 {
     protected $data = []; //Array containing invoice information
 
+    public function showAllReceipt(){  //For admin
+        $receipts = Receipt::all();
+        $items = array();
+        foreach ($receipts as $receipt){
+            $items[] = $this->showReceiptDetail($receipt->id);
+        }
+        return $items;
+    }
+
+    public function showAllReceiptCustomer(){
+        $user_id = auth()->id();
+        $receipts = Receipt::where('user_id',$user_id)->get();
+        if (empty($receipts))
+            return null;
+        $items = array();
+        foreach ($receipts as $receipt){
+            $items[] = $this->showReceiptDetail($receipt->id);
+        }
+        return $items;
+    }
+
+
     public function addNewReceipt($request){
 
         $cart_id = $request->cart_id;
@@ -41,14 +63,7 @@ class ReceiptService extends OrderService
         $receipt->save();
     }
 
-    public function showAllReceipt(){  //For admin
-        $receipts = Receipt::all();
-        $items = array();
-        foreach ($receipts as $receipt){
-            $items[] = $this->showReceiptDetail($receipt->id);
-        }
-        return $items;
-    }
+
 
     public function showReceiptDetail($id){
         $receipt = Receipt::find($id);
@@ -68,6 +83,7 @@ class ReceiptService extends OrderService
     }
     public function getAddressDetail($receipt_id){
         $receipt = Receipt::find($receipt_id);
+        $this->data['receipt_id'] = $receipt_id;
         $this->data['receiver_name'] = $receipt->receiver_name;
         $this->data['contact_number'] = $receipt->contact_number;
         $this->data['specific_address'] = $receipt->specific_address;

@@ -36,9 +36,6 @@ class OrderService extends CartService
         $product->save();
     }
 
-    public function updateCart(){
-
-    }
 
 
 
