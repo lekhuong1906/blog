@@ -4,10 +4,12 @@
 namespace App\Http\Services;
 
 
+use App\Mail\MailSuccess;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Receipt;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 
 class ReceiptService extends OrderService
@@ -54,6 +56,12 @@ class ReceiptService extends OrderService
 
         $receipt_id = $new_receipt->id;
         $this->addNewOrder($cart,$receipt_id);
+
+        #Send mail
+        $data = $this->showReceiptDetail($receipt_id);
+
+        Mail::to($data['email'])->send(new MailSuccess($data));
+
     }
 
 
@@ -78,6 +86,7 @@ class ReceiptService extends OrderService
 
     public function getUserDetail($user_id){
         $user = User::find($user_id);
+        $this->data['user_id'] = $user_id;
         $this->data['user_name'] = $user->name;
         $this->data['email'] = $user->email;
     }
