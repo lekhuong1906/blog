@@ -92,18 +92,21 @@ class ReceiptController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->service->updateReceiptStatus($id);
-        return response()->json(['message'=>'Updated Receipt Success']);
+        $message = $this->service->updateReceiptStatus($request,$id);
+        return response()->json(['message'=>$message]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        $message = $this->service->deleteReceipt($id);
+        return response()->json([
+            'message'=>$message,
+        ]);
     }
 }

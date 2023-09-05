@@ -19,7 +19,7 @@ class UserService
     }
 
     public function userDetail($id){
-        $user = User::where('id',$id)->select('id','name','email','is_admin','created_at','updated_at')->first();
+        $user = User::where('id',$id)->select('id','name','phone','address','email','is_admin','created_at','updated_at')->first();
         return json_decode(json_encode($user),true);
     }
 
@@ -28,6 +28,8 @@ class UserService
         try {
             $user = new User();
             $user->name = $request->name;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->is_admin = true; // Set quyền admin

@@ -29,7 +29,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 # Manage Login and Register
-Route::post('/register-admin', [AuthController::class, 'createUserAdmin']);
 Route::post('/register-customer', [AuthController::class, 'createUserCustomer']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -43,6 +42,8 @@ Route::resource('types', TypeController::class)->except('create', 'edit');
 /*--------------------Admin--------------------*/
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
+
+
     # Manage Dashboard
     Route::get('show-dashboard', [ReportSummaryController::class, 'showDashboard']);
     Route::post('update-filter', [ReportSummaryController::class, 'getFilter']);
@@ -51,10 +52,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('sliders',[SliderController::class,'store']);
 
     # Manage Receipt & Order
-    Route::get('receipts', [ReceiptController::class, 'index']);
-    Route::get('receipts/{id}',[ReceiptController::class, 'show']);
+    Route::resource('receipts',ReceiptController::class)->except('edit','create');
 
-    Route::resource('users',UserController::class)->except('create','destroy');
+    # Manage User
+    Route::resource('users',UserController::class)->except('create');
 
     # Manage Product
     Route::resource('products', ProductController::class)->only('store', 'update','destroy');
@@ -81,9 +82,22 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
 /*---------------------------------------------*/
 
-
+use App\Mail\MailSuccess;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Receipt;
 
 Route::get('test', function () {
+
+
+    try {
+        $receipt = Receipt::first();
+        $data = json_decode(json_encode($receipt),true);
+        Mail::to('lekhuong190602@gmail.com')->send(new MailSuccess($data));
+
+        return view('mails.mail_success');
+    } catch (Exception $e){
+        return $e->getMessage();
+    }
 
 });
 
