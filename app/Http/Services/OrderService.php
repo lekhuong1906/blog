@@ -3,6 +3,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\ImageProduct;
 use App\Models\Order;
 use App\Models\Product;
 
@@ -62,10 +63,13 @@ class OrderService extends CartService
             $product_detail['product_name'] = $product->product_name;
             $product_detail['quantity'] = $order->quantity;
             $product_detail['unit_price'] = $product->product_price;
+            $product_detail['image'] = $this->getImage($product->id);
+
 
             array_push($data,$product_detail);
         }
         return $data;
     }
+
 
 }

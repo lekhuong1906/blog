@@ -7,6 +7,7 @@ namespace App\Http\Services;
 use App\Mail\MailSuccess;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\ImageProduct;
 use App\Models\Order;
 use App\Models\Receipt;
 use App\Models\User;
