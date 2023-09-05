@@ -101,6 +101,7 @@ class ReceiptService extends OrderService
         $receipt = Receipt::find($receipt_id);
         $this->data['total_amount'] = $receipt->total_amount;
         $this->data['receipt_status'] = $receipt->status;
+        $this->data['created_at'] = $receipt->created_at;
     }
     public function getOrderDetail($receipt_id){
         $this->data['order_detail'] = $this->getProductDetail($receipt_id);
