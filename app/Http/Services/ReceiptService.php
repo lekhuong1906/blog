@@ -66,7 +66,6 @@ class ReceiptService extends OrderService
         $data = $this->showReceiptDetail($receipt_id);
 
         Mail::to($data['email'])->send(new MailSuccess($data));
-
     }
 
 

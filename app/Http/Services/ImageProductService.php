@@ -21,8 +21,6 @@ class ImageProductService
 
             $this->importImage($dataImport);
 
-
-            return 'Import Image Product Success';
         } catch (\Exception $e) {
             return $e->getMessage();
         }

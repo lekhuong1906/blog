@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\ImageProduct;
 use App\Models\Product;
 use App\Models\ProductDescription;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -27,15 +28,14 @@ class ProductService extends ImageProductService
     public function createProduct($request)
     {
         try {
-
             $product = new Product(); // Create New Product
             $product->fill($request->all());
             $product->save();
 
+            $this->createProductDescription($request, $product->id);
 
             $this->createImage($request, $product->id); // Create Product Images
 
-            $this->createProductDescription($request, $product->id);
 
             return 'Add Product Success';
 

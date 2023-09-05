@@ -72,46 +72,39 @@
 <body>
 <div class="container">
     <h1>Order Confirmation</h1>
-    <p>Hello [Customer's Name],</p>
-    <p>Your order [#12345] has been successfully received on [Order Date].</p>
+    <p>Hello {{($data['user_name'])}},</p>
+    <p>Your order has been placed successfully.</p>
 
     <table class="order-details">
         <thead>
         <tr>
             <th>Product</th>
             <th>Quantity</th>
-            <th>Price</th>
+            <th>Unit Price</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($data['order_detail'] as $order)
         <tr>
-            <td>Product 1</td>
-            <td>2</td>
-            <td>$50.00</td>
+            <td>{{$order['product_name']}}</td>
+            <td>{{$order['quantity']}}</td>
+            <td>{{number_format($order['unit_price']) . ' vnđ'}}</td>
         </tr>
-        <tr>
-            <td>Product 2</td>
-            <td>1</td>
-            <td>$30.00</td>
-        </tr>
+        @endforeach
         </tbody>
     </table>
 
-    <p>Total Amount: $80.00</p>
+    <p>Total Amount: {{number_format($data['total_amount']) . ' vnđ'}}</p>
 
-    <p>Your order will be shipped/delivered to you on [Delivery Date].</p>
-    <p>If you have any questions or need further assistance, please don't hesitate to <a href="mailto:support@example.com" class="btn">Contact Us</a>.</p>
+    <p>Your order will be shipped/delivered to your doorstep as soon as possible.</p>
 
     <p class="thank-you">Thank you for your order!</p>
 
     <div class="contact-info">
         <p>Contact Information:</p>
-        <p>Email: [Your Email]</p>
-        <p>Phone: [Your Phone Number]</p>
+        <p>Email: lekhuong190602@gmail.com</p>
+        <p>Phone: 123 456 78</p>
     </div>
-
-    {!! ($data['id']) !!}
-
 
     <p class="footer">This is an automated email. Please do not reply to this message.</p>
 </div>

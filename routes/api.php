@@ -33,15 +33,13 @@ Route::post('/register-customer', [AuthController::class, 'createUserCustomer'])
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 # HOME
-Route::get('sliders',[SliderController::class,'index']);
+Route::get('sliders', [SliderController::class, 'index']);
 Route::resource('products', ProductController::class)->only('index', 'show');
 Route::resource('types', TypeController::class)->except('create', 'edit');
 
 
-
 /*--------------------Admin--------------------*/
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-
 
 
     # Manage Dashboard
@@ -49,16 +47,16 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('update-filter', [ReportSummaryController::class, 'getFilter']);
 
     # Manage Banner
-    Route::post('sliders',[SliderController::class,'store']);
+    Route::post('sliders', [SliderController::class, 'store']);
 
     # Manage Receipt & Order
-    Route::resource('receipts',ReceiptController::class)->except('edit','create');
+    Route::resource('receipts', ReceiptController::class)->except('edit', 'create');
 
     # Manage User
-    Route::resource('users',UserController::class)->except('create');
+    Route::resource('users', UserController::class)->except('create');
 
     # Manage Product
-    Route::resource('products', ProductController::class)->only('store', 'update','destroy');
+    Route::resource('products', ProductController::class)->only('store', 'update', 'destroy');
 
 });
 /*---------------------------------------------*/
@@ -73,7 +71,7 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
     Route::delete('delete-item/{id}', [CartController::class, 'deleteCartItem']);
 
     # Order
-    Route::post('receipts',[ReceiptController::class,'store']);
+    Route::post('receipts', [ReceiptController::class, 'store']);
 
     Route::get('all-receipt-customer', [ReceiptController::class, 'allReceiptCustomer']);
     Route::get('receipt-detail/{id}', [ReceiptController::class, 'show']);
@@ -90,12 +88,38 @@ Route::get('test', function () {
 
 
     try {
-        $receipt = Receipt::first();
-        $data = json_decode(json_encode($receipt),true);
+        $data = [
+            'user_id' => 4,
+            'user_name' => 'Abc',
+            'email' => 'user_4@gmail.com',
+            'order_detail' => [
+                [
+                    'order_id' => 1,
+                    'product_name' => 'Backpack',
+                    'quantity' => 1,
+                    'unit_price' => 370000],
+                [
+                    'order_id' => 2,
+                    'product_name' => 'Wallet',
+                    'quantity' => 1,
+                    'unit_price' => 34000
+                ]
+            ],
+            'receipt_id'=>1,
+            'receiver_name'=>'Nguyen Van A',
+            'contact_number'=>'123456',
+            'specific_address' => '12 No Way',
+            'receipt_status' => 1,
+            'total_amount' => 960000,
+            'created_at' => '2023-08-22T14:02:06.000000Z'
+        ];
+
+//        $data = json_decode(json_encode($data), true);
+
         Mail::to('lekhuong190602@gmail.com')->send(new MailSuccess($data));
 
-        return view('mails.mail_success');
-    } catch (Exception $e){
+        return 123;
+    } catch (Exception $e) {
         return $e->getMessage();
     }
 
