@@ -16,11 +16,13 @@ class ReportSummarySeeder extends Seeder
      */
     public function run()
     {
-        $receipts = Receipt::count('id');
-        $time = Carbon::create(2023,07,01);
-        for ($i=0;$i<$receipts;$i++){
-            $revenue = Receipt::whereDate('created_at','<',$time)->sum('total_amount');
-            $order = Receipt::whereDate('created_at','<',$time)->count('id');
+
+        $time = Carbon::create(2023,01,01);
+        for ($i=0;$i<249;$i++){
+            $revenue = random_int(300000,2400000);
+            $order = random_int(1,8);
+//            $revenue = Receipt::whereDate('created_at','<',$time)->sum('total_amount');
+//            $order = Receipt::whereDate('created_at','<',$time)->count('id');
             ReportSummary::create([
                 'revenue'=>$revenue,
                 'total_order'=>$order,

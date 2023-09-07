@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Receipt;
 use Illuminate\Http\Request;
 use App\Http\Services\ReceiptService;
 use Illuminate\Support\Collection;
@@ -108,5 +109,17 @@ class ReceiptController extends Controller
         return response()->json([
             'message'=>$message,
         ]);
+    }
+
+    public function search(Request $request){
+        $search_item = $request->input('search');
+
+        $receipts = Receipt::where('receiver_name', 'LIKE', '%'.$search_item.'%')
+            ->orWhere('contact_number', 'LIKE', '%'.$search_item.'%')
+            ->get();
+        foreach ($receipts as $receipt){
+            $data [] = $this->service->showReceiptDetail($receipt->id);
+        }
+        return new Collection($data);
     }
 }

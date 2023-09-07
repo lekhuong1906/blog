@@ -102,4 +102,11 @@ class ProductController extends Controller
             'message'=>'Deleted Product Successfully',
         ]);
     }
+
+    public function search(Request $request){
+        $search_item = $request->input('product_name');
+        $products = Product::where('product_name', 'like', '%' . $search_item . '%')->get();
+
+        return new Collection($products);
+    }
 }
