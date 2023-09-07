@@ -75,9 +75,6 @@ class ReceiptService extends OrderService
         try {
             $request->validate([
                 'status' => 'required',
-                'receiver_name' => 'required',
-                'contact_number' => 'required|numeric',
-                'specific_address' => 'required',
             ]);
 
             $receipt = Receipt::find($id);
