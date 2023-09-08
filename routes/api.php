@@ -35,7 +35,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 # HOME
 Route::get('sliders', [SliderController::class, 'index']);
 Route::resource('products', ProductController::class)->only('index', 'show');
-Route::post('search-product',[ProductController::class,'search']);
+Route::get('search-product',[ProductController::class,'search']);
 Route::resource('types', TypeController::class)->except('create', 'edit');
 
 
@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     # Manage Receipt & Order
     Route::resource('receipts', ReceiptController::class)->except('edit', 'create');
-    Route::post('search-receipt',[ReceiptController::class,'search']);
+    Route::get('search-receipt',[ReceiptController::class,'search']);
 
     # Manage User
     Route::resource('users', UserController::class)->except('create');
