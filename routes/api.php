@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     # Manage Receipt & Order
     Route::resource('receipts', ReceiptController::class)->except('edit', 'create');
+    Route::post('update-status/{id}',[ReceiptController::class,'updateStatus']);
     Route::get('search-receipt',[ReceiptController::class,'search']);
 
     # Manage User

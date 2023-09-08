@@ -122,4 +122,12 @@ class ReceiptController extends Controller
         }
         return new Collection($data);
     }
+
+    public function updateStatus($id){
+        $receipt = Receipt::find($id);
+        $receipt->status = 1;
+        $receipt->save();
+
+        return response()->json(['message'=>'Update Successfully']);
+    }
 }
