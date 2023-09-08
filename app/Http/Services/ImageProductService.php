@@ -56,6 +56,8 @@ class ImageProductService
 
     public function thumbnails($imageFile)
     {
+        if ($imageFile == null)
+            return null;
         $thumbNail['file'] = $imageFile;
         $thumbNail['name'] = $this->setImageName($imageFile);
         $thumbNail['link'] = $this->getUrlImage($thumbNail['name']);
