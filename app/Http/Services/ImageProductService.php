@@ -10,14 +10,14 @@ use Illuminate\Support\Str;
 
 class ImageProductService
 {
-    public function createImage($request,$product_id)
+    public function createImage($request, $product_id)
     {
         try {
             $images = $this->dataImage($request); // Get image files
 
             $this->importStorage($images);  // Import to Storage
 
-            $dataImport = $this->dataImport($images,$product_id); // Get Data to import into DB
+            $dataImport = $this->dataImport($images, $product_id); // Get Data to import into DB
 
             $this->importImage($dataImport);
 
@@ -27,7 +27,7 @@ class ImageProductService
     }
 
 
-    public function dataImport($images,$product_id)  // Create Data to Import into DB
+    public function dataImport($images, $product_id)  // Create Data to Import into DB
     {
         $arrName = array();
         $arrLink = array();
@@ -48,8 +48,9 @@ class ImageProductService
         $images = [];
         $images[] = $this->thumbnails($request->thumbnails);
         $imageList = $this->images($request->images);
-        foreach ($imageList as $value)
-            $images[] = $value;
+        if ($imageList !== null)
+            foreach ($imageList as $value)
+                $images[] = $value;
         return $images;
     }
 
@@ -64,6 +65,8 @@ class ImageProductService
     public function images($imageFiles)
     {
         $data = [];
+        if ($imageFiles == null)
+            return null;
         foreach ($imageFiles as $image) {
             $value['file'] = $image;
             $value['name'] = $this->setImageName($image);
@@ -75,7 +78,7 @@ class ImageProductService
 
     public function setImageName($imageFile)  // Set image name
     {
-        return Str::random(32).'_'. $imageFile->getClientOriginalName();
+        return Str::random(32) . '_' . $imageFile->getClientOriginalName();
     }
 
 
