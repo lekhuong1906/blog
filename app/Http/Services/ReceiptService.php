@@ -73,10 +73,6 @@ class ReceiptService extends OrderService
     public function updateReceiptStatus($request, $id)
     {
         try {
-            $request->validate([
-                'status' => 'required',
-            ]);
-
             $receipt = Receipt::find($id);
 
             if (!$receipt)
