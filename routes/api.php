@@ -82,50 +82,6 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
 /*---------------------------------------------*/
 
-use App\Mail\MailSuccess;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Receipt;
-
-Route::get('test', function () {
-
-
-    try {
-        $data = [
-            'user_id' => 4,
-            'user_name' => 'Abc',
-            'email' => 'user_4@gmail.com',
-            'order_detail' => [
-                [
-                    'order_id' => 1,
-                    'product_name' => 'Backpack',
-                    'quantity' => 1,
-                    'unit_price' => 370000],
-                [
-                    'order_id' => 2,
-                    'product_name' => 'Wallet',
-                    'quantity' => 1,
-                    'unit_price' => 34000
-                ]
-            ],
-            'receipt_id'=>1,
-            'receiver_name'=>'Nguyen Van A',
-            'contact_number'=>'123456',
-            'specific_address' => '12 No Way',
-            'receipt_status' => 1,
-            'total_amount' => 960000,
-            'created_at' => '2023-08-22T14:02:06.000000Z'
-        ];
-
-//        $data = json_decode(json_encode($data), true);
-
-        Mail::to('lekhuong190602@gmail.com')->send(new MailSuccess($data));
-
-        return 123;
-    } catch (Exception $e) {
-        return $e->getMessage();
-    }
-
-});
 
 
 
