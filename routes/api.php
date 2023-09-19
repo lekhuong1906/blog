@@ -82,6 +82,9 @@ Route::middleware(['auth:sanctum', 'customer'])->group(function () {
 
 /*---------------------------------------------*/
 
+Route::get('/test',function (){
+    echo 123;
+});
 
 
 
